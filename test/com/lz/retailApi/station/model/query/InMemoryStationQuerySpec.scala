@@ -1,6 +1,7 @@
 package com.lz.retailApi.station.model.query
 
-import com.lz.retailApi.station.model.entity.Station
+import com.lz.stationApi.station.model.entity.Station
+import com.lz.stationApi.station.model.query.InMemoryStationQuery
 import org.scalatest.FunSpec
 
 class InMemoryStationQuerySpec extends FunSpec {

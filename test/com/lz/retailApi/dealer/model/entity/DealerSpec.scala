@@ -1,5 +1,6 @@
 package com.lz.retailApi.dealer.model.entity
 
+import com.lz.stationApi.dealer.model.entity.DealerType
 import org.scalatest.FunSpec
 
 class DealerSpec extends FunSpec {

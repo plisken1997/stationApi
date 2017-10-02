@@ -1,4 +1,4 @@
-name := """retail-api"""
+name := """station-api"""
 organization := "com.rz"
 
 version := "0.1-dev"

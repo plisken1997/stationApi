@@ -1,7 +1,8 @@
 package com.lz.retailApi.dealer.model.query
 
-import com.lz.retailApi.dealer.model.entity.{Dealer, DealerType}
-import com.lz.retailApi.station.model.entity.Station
+import com.lz.stationApi.dealer.model.entity.{Dealer, DealerType}
+import com.lz.stationApi.dealer.model.query.InMemmoryDealerQuery
+import com.lz.stationApi.station.model.entity.Station
 import org.scalatest.FunSpec
 
 class InMemmoryDealerQuerySpec extends FunSpec {
