@@ -28,7 +28,7 @@ object Station {
     "city",
   ).zipWithIndex.toMap
 
-  private def eltAt(pos: String): Option[Int] = propertyMap.get(pos)
+   private def eltAt(pos: String): Option[Int] = propertyMap.get(pos)
 
   /**
     *
@@ -65,7 +65,7 @@ object Station {
         values(8)
       ))
     } catch {
-      case _ => Failure(new RuntimeException(""))
+      case e: Error => Failure(new RuntimeException(e.getMessage))
     }
   }
 }
