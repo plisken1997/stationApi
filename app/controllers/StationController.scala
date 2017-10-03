@@ -18,10 +18,11 @@ class StationController @Inject()(cc: ControllerComponents, @Named("InMemoryStat
     reader.read(filepath)
     query
       .find(id)
-      .fold[Result](NotFound(s"id $id not found"))(station => Ok(Json.toJson(station)))
+      .fold[Result](NotFound(Json.toJson(Map("error" -> s"id $id not found"))))(station => Ok(Json.toJson(station)))
   }
 
-  def stations(countryCode: String) = Action {
-    Ok(Json.toJson(query.findAll()))
+  def stations(countryCode: Option[String]) = Action {
+    val filters = countryCode.map(c => List(("countryCode", c))).getOrElse(Nil)
+    Ok(Json.toJson(query.findAll(filters).map(_._2)))
   }
 }

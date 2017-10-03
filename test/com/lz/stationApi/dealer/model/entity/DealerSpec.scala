@@ -10,12 +10,12 @@ class DealerSpec extends FunSpec {
         val valTypeA = 1
         val typeA = DealerType.fromType(valTypeA)
         assert(typeA.isSuccess)
-        assert(typeA.map(_.dealerType).getOrElse(-1) == valTypeA)
+        assert(typeA.getOrElse(-1) == valTypeA)
 
         val valTypeB = 2
         val typeB = DealerType.fromType(valTypeB)
         assert(typeB.isSuccess)
-        assert(typeB.map(_.dealerType).getOrElse(-1) == valTypeB)
+        assert(typeB.getOrElse(-1) == valTypeB)
       }
 
       it("should fails if the given type is unknown") {

@@ -6,7 +6,7 @@ import com.lz.stationApi.common.query.QueryFilter
 import com.lz.stationApi.station.model.entity.Station
 
 @Singleton
-class InMemoryStationQuery(val stations: Map[Int, Station]) extends StationQuery {
+class InMemoryStationQuery(private val stations: Map[Int, Station]) extends StationQuery {
   /**
     *
     * @param id
@@ -27,4 +27,11 @@ class InMemoryStationQuery(val stations: Map[Int, Station]) extends StationQuery
     }
     stations.filter(v => stationFilter(v._2))
   }
+
+  /**
+    *
+    * @param dealerId
+    * @return
+    */
+  override def findByDealer(dealerId: Int): Iterable[Station] = findAll().filter(_._2.dealerId == dealerId).values
 }

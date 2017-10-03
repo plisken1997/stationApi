@@ -3,7 +3,7 @@
 # https://www.playframework.com/documentation/latest/ScalaRouting
 # ~~~~
 
-GET     /api/v1/station/:id                           controllers.StationController.station(id: Int)
-GET     /api/v1/station/                           controllers.StationController.stations(countryCode = "")
-GET     /api/v1/dealer/:id/station/                           controllers.DealerController.stations(id: Int)
-GET     /api/v1/dealer/countStations/                           controllers.DealerController.countByDealer()
+GET        /api/v1/station/                     controllers.StationController.stations(countryCode: Option[String])
+GET        /api/v1/station/:id                  controllers.StationController.station(id: Int)
+GET        /api/v1/dealer/:dealerId/stations/          controllers.DealerController.stations(dealerId: Int)
+GET        /api/v1/dealer/countStations/        controllers.DealerController.countByDealer(countryCode: Option[String])

@@ -17,7 +17,6 @@ class InMemoryStationQueryFactory @Inject()(csvReader: StationCSVReader) {
     csvReader
       .read(filepath)
       .map { stations =>
-        val a = stations
         new InMemoryStationQuery(stations.map(s => (s.id, s)).toMap)
       }
 }

@@ -1,6 +1,5 @@
 package modules
 
-import java.io.File
 import java.nio.file.{Files, Paths}
 
 import com.google.inject.{AbstractModule, Provides}
@@ -42,7 +41,7 @@ class StationModule extends AbstractModule {
     result.onComplete {
       case Success(query) =>
         // @todo use play logger
-        println(s"query handler successfully loaded : ${query.stations.size} station(s) loaded")
+        println(s"query handler successfully loaded : ${query.findAll().size} station(s) loaded")
         query
       case Failure(err) =>
         println(err.getMessage)

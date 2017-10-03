@@ -39,7 +39,7 @@ object Station {
   def matchValue(station: Station, filter: (String, String)): Boolean = eltAt(filter._1) exists { pos =>
     station.productElement(pos) match {
       case v: Int => v == filter._2.toInt
-      case v: String => v == filter._2
+      case v: String => v.toLowerCase() == filter._2.toLowerCase()
       case v: Double => v == filter._2.toDouble
       case _ => false
     }
