@@ -51,21 +51,23 @@ object Station {
     * @param values
     * @return
     */
-  def fromCSV(values: Array[String]): Try[Station] = {
-    try {
-      Success(Station(
-        values(0).toInt,
-        values(1).toInt,
-        values(2),
-        values(3),
-        values(4).toDouble,
-        values(5).toDouble,
-        values(6),
-        values(7),
-        values(8)
-      ))
-    } catch {
-      case e: Error => Failure(new RuntimeException(e.getMessage))
-    }
+  def fromCSV(values: Array[String]): Try[Station] = values match {
+    case Array(id, dealerId, countryCode, stationName, latitude, longitude, address, postalCode, city) =>
+      try {
+        Success(Station(
+          id.toInt,
+          dealerId.toInt,
+          countryCode,
+          stationName,
+          latitude.toDouble,
+          longitude.toDouble,
+          address,
+          postalCode,
+          city
+        ))
+      } catch {
+        case e: Error => Failure(new RuntimeException(e.getMessage))
+      }
+    case _ => Failure(new RuntimeException(s"the csv file contains invalid rows number (${values.mkString(",")})"))
   }
 }

@@ -1,8 +1,11 @@
 package com.lz.stationApi.station.model.query
 
+import javax.inject.Singleton
+
 import com.lz.stationApi.common.query.QueryFilter
 import com.lz.stationApi.station.model.entity.Station
 
+@Singleton
 class InMemoryStationQuery(val stations: Map[Int, Station]) extends StationQuery {
   /**
     *

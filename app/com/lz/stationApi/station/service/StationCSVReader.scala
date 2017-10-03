@@ -1,12 +1,15 @@
 package com.lz.stationApi.station.service
 
-import com.lz.stationApi.common.service.{CSVEntityFactory, InputDataReader}
+import javax.inject.{Inject, Singleton}
+
+import com.lz.stationApi.common.service.InputDataReader
 import com.lz.stationApi.station.model.entity.Station
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class StationCSVReader(val entityFactory: CSVEntityFactory[Station]) extends InputDataReader[Station] {
+@Singleton
+class StationCSVReader @Inject()(val entityFactory: StationCSVFactory) extends InputDataReader[Station] {
 
   /**
     *

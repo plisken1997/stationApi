@@ -13,9 +13,10 @@ trait InputDataReader[U] {
     * @param ifExists
     * @return
     */
-  private def withAcceptedFile(filepath: String)(ifExists: () => List[U]): Future[List[U]] =
-    if (Files.exists(Paths.get(filepath))) Future(ifExists())
+  private def withAcceptedFile(filepath: String)(ifExists: () => List[U]): Future[List[U]] = {
+    if (Files.isReadable(Paths.get(filepath))) Future(ifExists())
     else Future.failed(new RuntimeException(s"file $filepath does not exists"))
+  }
 
 
   /**

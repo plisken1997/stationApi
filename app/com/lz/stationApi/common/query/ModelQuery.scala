@@ -1,6 +1,6 @@
 package com.lz.stationApi.common.query
 
-trait stationApiQuery[A, B] {
+trait ModelQuery[A, B] {
   /**
     *
     * @param id

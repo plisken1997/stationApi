@@ -1,8 +1,11 @@
 package com.lz.stationApi.dealer.model.query
 
+import javax.inject.Singleton
+
 import com.lz.stationApi.common.query.QueryFilter
 import com.lz.stationApi.dealer.model.entity.Dealer
 
+@Singleton
 class InMemmoryDealerQuery(private val stations: Map[Int, Dealer]) extends DealerQuery {
   /**
     *
