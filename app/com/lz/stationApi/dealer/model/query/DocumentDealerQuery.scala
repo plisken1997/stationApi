@@ -1,5 +1,8 @@
 package com.lz.stationApi.dealer.model.query
 
+import javax.inject.Singleton
+
+@Singleton
 class DocumentDealerQuery extends DealerQuery {
   /**
     *

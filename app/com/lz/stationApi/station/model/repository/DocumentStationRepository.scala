@@ -1,24 +1,25 @@
 package com.lz.stationApi.station.model.repository
 
-
 import javax.inject.{Inject, Singleton}
 
 import com.lz.stationApi.common.repository.EntityUpdater
-import com.lz.stationApi.station.model.entity.Station
 import play.api.libs.json.Json
 import play.modules.reactivemongo.ReactiveMongoApi
-import reactivemongo.api.ReadPreference
 import reactivemongo.api.commands.WriteResult
 import reactivemongo.bson.{BSONDocument, BSONObjectID}
 import reactivemongo.play.json._
 import reactivemongo.play.json.collection.JSONCollection
+import com.lz.stationApi.station.model.entity.Station
+import reactivemongo.api.ReadPreference
 
 import scala.concurrent.{ExecutionContext, Future}
 
 case class StationDocument(_id: Option[BSONObjectID], station: Station)
 
 object JsonFormats {
+
   import play.api.libs.json._
+
   implicit val stationDocumentFormat: OFormat[StationDocument] = Json.format[StationDocument]
 }
 
@@ -26,7 +27,7 @@ object JsonFormats {
 class DocumentStationRepository @Inject()(
                                            implicit ec: ExecutionContext,
                                            reactiveMongoApi: ReactiveMongoApi
-                                         ) extends StationRepository with EntityUpdater[BSONObjectID, Station]{
+                                         ) extends StationRepository with EntityUpdater[BSONObjectID, Station] {
 
   import JsonFormats._
 
@@ -41,14 +42,13 @@ class DocumentStationRepository @Inject()(
     stationsCollection
       .flatMap(_.insert(StationDocument(None, entity)))
       .map {
-        case w:WriteResult if w.ok => Some(entity)
+        case w: WriteResult if w.ok => Some(entity)
         case _ => None
       }
   }
 
   /**
     * @todo implements !!
-    *
     * @param entity
     * @return
     */

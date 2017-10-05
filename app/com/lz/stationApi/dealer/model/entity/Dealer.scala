@@ -10,6 +10,10 @@ case class Dealer(
                  )
 
 object Dealer {
+
+  import play.api.libs.json._
+  implicit val dealerFormat: OFormat[Dealer] = Json.format[Dealer]
+
   /**
     * @todo use a type class
     * @param values
