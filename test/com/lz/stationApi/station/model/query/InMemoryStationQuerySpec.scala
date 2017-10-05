@@ -2,9 +2,9 @@ package com.lz.retailApi.station.model.query
 
 import com.lz.stationApi.station.model.entity.Station
 import com.lz.stationApi.station.model.query.InMemoryStationQuery
-import org.scalatest.FunSpec
+import org.scalatest.AsyncFunSpec
 
-class InMemoryStationQuerySpec extends FunSpec {
+class InMemoryStationQuerySpec extends AsyncFunSpec {
   describe("An InMemoryStationQuery") {
     val stations = Map(
       38332 -> Station(38332, 13, "FR", "GARAGE DE MONTBEL", 45.6760293, 4.7733092, "2 CHE DES BASSES VALLIERE", "69530", "BRIGNAIS"),
@@ -17,27 +17,27 @@ class InMemoryStationQuerySpec extends FunSpec {
 
     describe("when initialized with a station list") {
       it("should have the same size as the given list") {
-        assert(stationQuery.findAll().size == stations.size)
+        stationQuery.findAll().map(s => assert(s.size == stations.size))
       }
 
       it("should returns a filtered list with the given inputs") {
-        assert(stationQuery.findAll(List(("countryCode", "FR"))).size == 2)
-        assert(stationQuery.findAll(List(
+        stationQuery.findAll(List(("countryCode", "FR"))).map(s => assert(s.size == 2))
+        stationQuery.findAll(List(
           ("countryCode", "FR"),
           ("dealerId", "63"),
           ("longitude", "-1.599868871704075")
-        )).size == 1)
+        )).map(s => assert(s.size == 1))
       }
 
       it("should returns the required element") {
-        val elt = stationQuery.find(38332)
-        assert(elt.nonEmpty)
-        assert(elt.get == stations.get(38332).get)
+        stationQuery.find(38332).map { elt =>
+          assert(elt.nonEmpty)
+          assert(elt.get == stations.get(38332).get)
+        }
       }
 
       it("should not find the required element if it does not exists") {
-        val elt = stationQuery.find(38332111)
-        assert(elt.isEmpty)
+        stationQuery.find(38332111).map(elt => assert(elt.isEmpty))
       }
     }
   }

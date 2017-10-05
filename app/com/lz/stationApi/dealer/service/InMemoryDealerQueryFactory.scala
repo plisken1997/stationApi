@@ -3,6 +3,7 @@ package com.lz.stationApi.dealer.service
 
 import javax.inject.{Inject, Named, Singleton}
 
+import com.lz.stationApi.dealer.model.entity.Dealer
 import com.lz.stationApi.dealer.model.query.InMemoryDealerQuery
 import com.lz.stationApi.station.model.query.StationQuery
 
@@ -17,15 +18,23 @@ class InMemoryDealerQueryFactory @Inject()(csvReader: DealerCSVReader, @Named("I
     * @param filepath
     * @return
     */
-  def createQueryObject(filepath: String): Future[InMemoryDealerQuery] =
-    csvReader
-      .read(filepath)
-      .map { dealers =>
-        new InMemoryDealerQuery(dealers.map { dealer =>
-          (
-            dealer.id,
-            dealer.copy(stations = stationQuery.findByDealer(dealer.id))
-          )
-        }.toMap)
+  def createQueryObject(filepath: String): Future[InMemoryDealerQuery] = for {
+    dealers <- csvReader.read(filepath)
+    dealersWithStations <- addStations(dealers)
+  } yield new InMemoryDealerQuery(dealersWithStations.toMap)
+
+  /**
+    *
+    * @param dealers
+    * @return
+    */
+  private def addStations(dealers: List[Dealer]): Future[Iterable[(Int, Dealer)]] =
+    Future.sequence(dealers.map { dealer =>
+      stationQuery.findByDealer(dealer.id).map { stations =>
+        (
+          dealer.id,
+          dealer.copy(stations = stations)
+        )
       }
+    })
 }

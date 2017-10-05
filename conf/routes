@@ -4,8 +4,6 @@
 # ~~~~
 
 GET        /api/v1/station/                          controllers.StationController.stations(countryCode: Option[String])
-## for test purpose only !
-GET        /api/v1/station/init                      controllers.LoadStationController.load()
 GET        /api/v1/station/:id                       controllers.StationController.station(id: Int)
 GET        /api/v1/dealer/:dealerId/stations/        controllers.DealerController.stations(dealerId: Int)
 GET        /api/v1/dealer/countStations/             controllers.DealerController.countByDealer(countryCode: Option[String])

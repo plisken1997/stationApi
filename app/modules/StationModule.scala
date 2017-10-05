@@ -3,7 +3,7 @@ package modules
 import java.nio.file.{Files, Paths}
 
 import com.google.inject.{AbstractModule, Provides}
-import com.lz.stationApi.station.model.query.{InMemoryStationQuery, StationQuery}
+import com.lz.stationApi.station.model.query.{DocumentStationQuery, InMemoryStationQuery, StationQuery}
 import com.lz.stationApi.station.service.InMemoryStationQueryFactory
 import javax.inject.Inject
 
@@ -21,14 +21,17 @@ class StationModule extends AbstractModule {
     *
     */
   def configure() = {
-
     bind(classOf[StationQuery])
       .annotatedWith(Names.named("InMemoryStationQuery"))
       .to(classOf[InMemoryStationQuery]).asEagerSingleton()
 
     bind(classOf[StationRepository])
-      .annotatedWith(Names.named("DocumentStationRepository"))
+      .annotatedWith(Names.named("StationRepository"))
       .to(classOf[DocumentStationRepository]).asEagerSingleton()
+
+    bind(classOf[StationQuery])
+      .annotatedWith(Names.named("StationQuery"))
+      .to(classOf[DocumentStationQuery]).asEagerSingleton()
   }
 
   /**
@@ -47,8 +50,10 @@ class StationModule extends AbstractModule {
 
     result.onComplete {
       case Success(query) =>
-        // @todo use play logger
-        Logger.info(s"query handler successfully loaded : ${query.findAll().size} station(s) loaded")
+        query.findAll().map { stations =>
+          Logger.info(s"query handler successfully loaded : ${stations.size} station(s) loaded")
+        }
+
         query
       case Failure(err) =>
         Logger.error(err.getMessage)

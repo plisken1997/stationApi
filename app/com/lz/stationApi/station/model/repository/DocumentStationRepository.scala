@@ -1,7 +1,7 @@
 package com.lz.stationApi.station.model.repository
 
 
-import javax.inject.Inject
+import javax.inject.{Inject, Singleton}
 
 import com.lz.stationApi.common.repository.EntityUpdater
 import com.lz.stationApi.station.model.entity.Station
@@ -22,6 +22,7 @@ object JsonFormats {
   implicit val stationDocumentFormat: OFormat[StationDocument] = Json.format[StationDocument]
 }
 
+@Singleton
 class DocumentStationRepository @Inject()(
                                            implicit ec: ExecutionContext,
                                            reactiveMongoApi: ReactiveMongoApi
@@ -47,7 +48,7 @@ class DocumentStationRepository @Inject()(
 
   /**
     * @todo implements !!
-    *       
+    *
     * @param entity
     * @return
     */

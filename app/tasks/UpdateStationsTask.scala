@@ -19,6 +19,4 @@ class UpdateStationsTask @Inject() (
     receiver = updateStationsActor,
     message = UpdateStationsActor.UpdateStations("resources/csv/stations.csv")
   )
-
-
 }

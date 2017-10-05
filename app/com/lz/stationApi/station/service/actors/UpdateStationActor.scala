@@ -9,7 +9,7 @@ import com.lz.stationApi.station.service.StationCSVFactory
 @Singleton
 class UpdateStationActor @Inject()(
                                     val entityFactory: StationCSVFactory,
-                                    @Named("DocumentStationRepository") val repository: StationRepository
+                                    @Named("StationRepository") val repository: StationRepository
                                   )  extends Actor {
 
   import com.lz.stationApi.station.service.actors.UpdateStationActor._

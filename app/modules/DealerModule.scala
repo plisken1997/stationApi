@@ -5,8 +5,10 @@ import javax.inject.Inject
 
 import com.google.inject.{AbstractModule, Provides}
 import com.google.inject.name.Names
-import com.lz.stationApi.dealer.model.query.{DealerQuery, InMemoryDealerQuery}
+import com.lz.stationApi.dealer.model.query.{DealerQuery, DocumentDealerQuery, InMemoryDealerQuery}
+import com.lz.stationApi.dealer.model.repository.{DealerRepository, DocumentDealerRepository}
 import com.lz.stationApi.dealer.service.InMemoryDealerQueryFactory
+import com.lz.stationApi.station.model.repository.{DocumentStationRepository, StationRepository}
 
 import scala.concurrent.Await
 import scala.util.{Failure, Success}
@@ -20,6 +22,14 @@ class DealerModule extends AbstractModule {
     bind(classOf[DealerQuery])
       .annotatedWith(Names.named("InMemoryDealerQuery"))
       .to(classOf[InMemoryDealerQuery]).asEagerSingleton()
+
+    bind(classOf[DealerRepository])
+      .annotatedWith(Names.named("DealerRepository"))
+      .to(classOf[DocumentDealerRepository]).asEagerSingleton()
+
+    bind(classOf[DealerQuery])
+      .annotatedWith(Names.named("DealerQuery"))
+      .to(classOf[DocumentDealerQuery]).asEagerSingleton()
   }
 
   /**
@@ -38,8 +48,9 @@ class DealerModule extends AbstractModule {
 
     result.onComplete {
       case Success(query) =>
-        // @todo use play logger
-        Logger.info(s"query handler successfully loaded : ${query.findAll().size} dealer(s) loaded")
+        query.findAll().map { dealers =>
+          Logger.info(s"query handler successfully loaded : ${dealers.size} dealer(s) loaded")
+        }
         query
       case Failure(err) =>
         Logger.error(err.getMessage)

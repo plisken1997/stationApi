@@ -3,9 +3,9 @@ package com.lz.retailApi.dealer.model.query
 import com.lz.stationApi.dealer.model.entity.{Dealer, DealerType}
 import com.lz.stationApi.dealer.model.query.InMemoryDealerQuery
 import com.lz.stationApi.station.model.entity.Station
-import org.scalatest.FunSpec
+import org.scalatest.AsyncFunSpec
 
-class InMemoryDealerQuerySpec extends FunSpec {
+class InMemoryDealerQuerySpec extends AsyncFunSpec {
   describe("A dealerquery object") {
     val tryFirstDealer = DealerType.fromType(1).map(dealerType => Dealer(1086, "RTC", dealerType, List(
       Station(75388, 1086, "DE", "REIFEN USZECK", 53.62815, 14.00238, "Wilhelmstraße 14", "17358", "Torgelow"),
@@ -21,18 +21,21 @@ class InMemoryDealerQuerySpec extends FunSpec {
 
     describe("when initialized with a dealer list") {
       it("should have the same size as the given list") {
-        assert(dealerQuery.findAll().size == dealers.size)
+        dealerQuery.findAll().map(d => assert(d.size == dealers.size))
       }
 
       it("should returns the expected dealer with its stations") {
-        val d = dealerQuery.find(1086)
-        assert(d.nonEmpty)
-        assert(d.get.stations.size == firstDealer.stations.size)
+        dealerQuery
+          .find(1086)
+          .map { d =>
+            assert(d.nonEmpty)
+            assert(d.get.stations.size == firstDealer.stations.size)
+          }
       }
 
       it("should count the stations for a required dealer") {
-        assert(dealerQuery.countStations().filter(_._1 == "RTC").head._2 == 2)
-        assert(dealerQuery.countStations().filter(_._1 == "Reifen Helm").head._2 == 0)
+        dealerQuery.countStations().map(s => assert(s.filter(_._1 == "RTC").head._2 == 2))
+        dealerQuery.countStations().map(s => assert(s.filter(_._1 == "Reifen Helm").head._2 == 0))
       }
     }
   }

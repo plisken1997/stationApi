@@ -5,6 +5,9 @@ import javax.inject.Singleton
 import com.lz.stationApi.common.query.QueryFilter
 import com.lz.stationApi.station.model.entity.Station
 
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+
 @Singleton
 class InMemoryStationQuery(private val stations: Map[Int, Station]) extends StationQuery {
   /**
@@ -12,20 +15,20 @@ class InMemoryStationQuery(private val stations: Map[Int, Station]) extends Stat
     * @param id
     * @return
     */
-  override def find(id: Int): Option[Station] = stations.get(id)
+  override def find(id: Int): Future[Option[Station]] = Future(stations.get(id))
 
   /**
     *
     * @param filters
     * @return
     */
-  override def findAll(filters: List[QueryFilter] = Nil): Map[Int, Station] = {
+  override def findAll(filters: List[QueryFilter] = Nil): Future[Map[Int, Station]] = {
     def stationFilter(station: Station): Boolean = {
       filters.foldLeft(true) { case (accept: Boolean, f: QueryFilter) =>
         accept && Station.matchValue(station, f)
       }
     }
-    stations.filter(v => stationFilter(v._2))
+    Future(stations.filter(v => stationFilter(v._2)))
   }
 
   /**
@@ -33,5 +36,5 @@ class InMemoryStationQuery(private val stations: Map[Int, Station]) extends Stat
     * @param dealerId
     * @return
     */
-  override def findByDealer(dealerId: Int): Iterable[Station] = findAll().filter(_._2.dealerId == dealerId).values
+  override def findByDealer(dealerId: Int): Future[Iterable[Station]] = findAll().map(_.filter(_._2.dealerId == dealerId).values)
 }
