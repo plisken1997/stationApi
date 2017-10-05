@@ -46,11 +46,12 @@ class DocumentStationRepository @Inject()(
   }
 
   /**
-    *
+    * @todo implements !!
+    *       
     * @param entity
     * @return
     */
-  override def upsert(entity: Station): Future[Option[Station]] = ???
+  override def upsert(entity: Station): Future[Option[Station]] = save(entity)
 
   /**
     *
