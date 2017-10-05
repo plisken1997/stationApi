@@ -8,20 +8,27 @@ import com.lz.stationApi.station.service.InMemoryStationQueryFactory
 import javax.inject.Inject
 
 import com.google.inject.name.Names
+import com.lz.stationApi.station.model.repository.{DocumentStationRepository, StationRepository}
 
 import scala.util.{Failure, Success}
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
+import play.api.Logger
 
 class StationModule extends AbstractModule {
   /**
     *
     */
   def configure() = {
+
     bind(classOf[StationQuery])
       .annotatedWith(Names.named("InMemoryStationQuery"))
       .to(classOf[InMemoryStationQuery]).asEagerSingleton()
+
+    bind(classOf[StationRepository])
+      .annotatedWith(Names.named("DocumentStationRepository"))
+      .to(classOf[DocumentStationRepository]).asEagerSingleton()
   }
 
   /**
@@ -35,16 +42,16 @@ class StationModule extends AbstractModule {
     // @todo handle error (should kill app !)
     val result = factory.createQueryObject(filepath)
 
-    println(s"load $filepath content")
+    Logger.info(s"load $filepath content")
     assert(Files.isReadable(Paths.get(filepath)), "unreadable stations.csv file")
 
     result.onComplete {
       case Success(query) =>
         // @todo use play logger
-        println(s"query handler successfully loaded : ${query.findAll().size} station(s) loaded")
+        Logger.info(s"query handler successfully loaded : ${query.findAll().size} station(s) loaded")
         query
       case Failure(err) =>
-        println(err.getMessage)
+        Logger.error(err.getMessage)
         new InMemoryStationQuery(Map())
     }
 

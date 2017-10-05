@@ -20,6 +20,7 @@ trait InputDataReader[U] {
 
 
   /**
+    * used for small dataset
     *
     * @param filepath
     * @param separ

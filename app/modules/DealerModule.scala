@@ -12,6 +12,7 @@ import scala.concurrent.Await
 import scala.util.{Failure, Success}
 import scala.concurrent.duration._
 import scala.concurrent.ExecutionContext.Implicits.global
+import play.api.Logger
 
 class DealerModule extends AbstractModule {
 
@@ -32,16 +33,16 @@ class DealerModule extends AbstractModule {
     // @todo handle error (should kill app !)
     val result = factory.createQueryObject(filepath)
 
-    println(s"load $filepath content")
+    Logger.info(s"load $filepath content")
     assert(Files.isReadable(Paths.get(filepath)), "unreadable dealers.csv file")
 
     result.onComplete {
       case Success(query) =>
         // @todo use play logger
-        println(s"query handler successfully loaded : ${query.findAll().size} dealer(s) loaded")
+        Logger.info(s"query handler successfully loaded : ${query.findAll().size} dealer(s) loaded")
         query
       case Failure(err) =>
-        println(err.getMessage)
+        Logger.error(err.getMessage)
         new InMemoryDealerQuery(Map())
     }
 

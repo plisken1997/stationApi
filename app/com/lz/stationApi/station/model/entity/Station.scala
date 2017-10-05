@@ -12,9 +12,14 @@ case class Station(
                     address: StationAddress,
                     postalCode: PostalCode,
                     city: City
-                  )
+                  ) {
+  override def toString = s"{$id | $dealerId | $countryCode | $stationName | $address | $city}"
+}
 
 object Station {
+
+  import play.api.libs.json._
+  implicit val stationFormat: OFormat[Station] = Json.format[Station]
 
   val propertyMap = Seq(
     "id",
