@@ -9,13 +9,13 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class InMemoryStationQuery(private val stations: Map[Int, Station]) extends StationQuery {
+class InMemoryStationQuery(stations: Map[Int, Station]) extends StationQuery {
   /**
     *
     * @param id
     * @return
     */
-  override def find(id: Int): Future[Option[Station]] = Future(stations.get(id))
+  override def find(id: Int): Future[Option[Station]] = Future.successful(stations.get(id))
 
   /**
     *

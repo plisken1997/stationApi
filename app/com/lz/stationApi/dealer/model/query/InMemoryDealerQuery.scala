@@ -9,13 +9,13 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class InMemoryDealerQuery(private val dealers: Map[Int, Dealer]) extends DealerQuery {
+class InMemoryDealerQuery(dealers: Map[Int, Dealer]) extends DealerQuery {
   /**
     *
     * @param id
     * @return
     */
-  override def find(id: Int): Future[Option[Dealer]] = Future(dealers.get(id))
+  override def find(id: Int): Future[Option[Dealer]] = Future.successful(dealers.get(id))
 
   /**
     *
@@ -25,12 +25,12 @@ class InMemoryDealerQuery(private val dealers: Map[Int, Dealer]) extends DealerQ
   override def findAll(filters: List[QueryFilter]): Future[Map[Int, Dealer]] = {
     // @todo filter on countryCode
     // @see com.lz.stationApi.station.model.query.InMemoryStationQuery.findAll() to an implementation example
-    Future(dealers)
+    Future.successful(dealers)
   }
 
   /**
     *
     * @return
     */
-  override def countStations(filters: List[QueryFilter]): Future[List[(String, Int)]] = Future(dealers.map(d => (d._2.name, d._2.stations.size)).toList)
+  override def countStations(filters: List[QueryFilter]): Future[List[(String, Int)]] = Future.successful(dealers.map(d => (d._2.name, d._2.stations.size)).toList)
 }

@@ -14,7 +14,7 @@ import scala.concurrent.Future
 import scala.util.{Failure, Success}
 
 @Singleton
-class UpdateDealerActor @Inject()(
+final class UpdateDealerActor @Inject()(
                                    entityFactory: DealerCSVFactory,
                                    @Named("DealerRepository") repository: DealerRepository,
                                    @Named("InMemoryStationQuery") query: StationQuery,

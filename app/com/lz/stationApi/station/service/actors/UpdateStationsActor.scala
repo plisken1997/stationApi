@@ -8,7 +8,7 @@ import play.api.Logger
 import scala.io.Source
 
 @Singleton
-class UpdateStationsActor @Inject() (@Named("update-station-actor") updateStationActor: ActorRef) extends Actor {
+final class UpdateStationsActor @Inject() (@Named("update-station-actor") updateStationActor: ActorRef) extends Actor {
   import com.lz.stationApi.station.service.actors.UpdateStationsActor._
 
   override def receive = {

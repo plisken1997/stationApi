@@ -9,7 +9,7 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class DealerCSVReader @Inject()(val entityFactory: DealerCSVFactory) extends InputDataReader[Dealer] {
+class DealerCSVReader @Inject()(entityFactory: DealerCSVFactory) extends InputDataReader[Dealer] {
   /**
     *
     * @param filepath

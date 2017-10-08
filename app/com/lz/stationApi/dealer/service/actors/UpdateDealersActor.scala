@@ -10,7 +10,7 @@ import play.api.Logger
 import scala.io.Source
 
 @Singleton
-class UpdateDealersActor @Inject()(@Named("update-dealer-actor") updateDealerActor: ActorRef) extends Actor {
+final class UpdateDealersActor @Inject()(@Named("update-dealer-actor") updateDealerActor: ActorRef) extends Actor {
   import com.lz.stationApi.dealer.service.actors.UpdateDealersActor._
 
   /**

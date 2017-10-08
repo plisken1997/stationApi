@@ -7,9 +7,9 @@ import com.lz.stationApi.station.model.repository.StationRepository
 import com.lz.stationApi.station.service.StationCSVFactory
 
 @Singleton
-class UpdateStationActor @Inject()(
-                                    val entityFactory: StationCSVFactory,
-                                    @Named("StationRepository") val repository: StationRepository
+final class UpdateStationActor @Inject()(
+                                    entityFactory: StationCSVFactory,
+                                    @Named("StationRepository") repository: StationRepository
                                   )  extends Actor {
 
   import com.lz.stationApi.station.service.actors.UpdateStationActor._
